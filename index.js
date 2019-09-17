@@ -52,11 +52,16 @@ function onSchedule() {
         });
 }
 
-const job = new CronJob(config.scheduleCron, () => {
+function onScheduleWrapper() {
     console.log(`Scheduled job running`);
     onSchedule();
     console.log(`Scheduled job done`);
-});
+}
+
+const job = new CronJob(config.scheduleCron, onScheduleWrapper);
 
 console.log(`Starting schedule ${config.scheduleCron}`);
+if (config.runOnInit) {
+    onScheduleWrapper();
+}
 job.start();
