@@ -3,7 +3,7 @@
 echo Starting Raspberry Pi maintenance
 
 echo Starting to update Raspberry Pi
-sudo apt-get update
+sudo apt-get --allow-releaseinfo-change update
 sudo apt-get dist-upgrade -y
 sudo apt autoremove -y
 echo Done updating Raspberry Pi
