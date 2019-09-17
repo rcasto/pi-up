@@ -1,0 +1,4 @@
+{
+    "piAddress": "<your-pi-ip-address-here>",
+    "piPassword": "<your-pi-ssh-password-here>"
+}
