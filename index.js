@@ -1,13 +1,22 @@
+const readFile = require('fs').readFile;
+const promisify = require('util').promisify;
+const readFilePromise = promisify(readFile);
 const Client = require('ssh2').Client;
 const config = require('./config.json');
 
 const conn = new Client();
 
 conn
-    .on('ready', () => {
+    .on('ready', async () => {
         console.log('Client :: ready');
 
-        conn.exec('uptime', (err, stream) => {
+        const customScript = await readFilePromise('./custom-update.sh', {
+            encoding: 'utf-8',
+        });
+
+        // console.log(customScript);
+
+        conn.exec(customScript, (err, stream) => {
             if (err) {
                 throw err;
             }
@@ -18,10 +27,10 @@ conn
                     conn.end();
                 })
                 .on('data', data => {
-                    console.log('STDOUT: ' + data);
+                    console.log(`${data}`);
                 })
                 .stderr.on('data', data => {
-                    console.log('STDERR: ' + data);
+                    console.error('Error: ' + data);
                 });
         });
     })
