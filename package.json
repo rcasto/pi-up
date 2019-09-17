@@ -1,0 +1,14 @@
+{
+  "name": "piup",
+  "version": "1.0.0",
+  "description": "Update a Raspberry Pi remotely using a custom script on a desired schedule",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Richie Casto (https://github.com/rcasto)",
+  "license": "MIT",
+  "dependencies": {
+    "ssh2": "^0.8.5"
+  }
+}
