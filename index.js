@@ -5,16 +5,20 @@ const Client = require('ssh2').Client;
 const config = require('./config.json');
 
 const conn = new Client();
-
 conn
     .on('ready', async () => {
-        console.log('Client :: ready');
+        console.log('SSH connection established');
 
         const customScript = await readFilePromise('./custom-update.sh', {
             encoding: 'utf-8',
         });
+        console.log('Custom script to execute');
+        console.log('------------------------');
+        console.log(customScript);
+        console.log('------------------------');
 
-        // console.log(customScript);
+        console.log('Executing custom script');
+        console.log('-----------------------');
 
         conn.exec(customScript, (err, stream) => {
             if (err) {
@@ -27,12 +31,16 @@ conn
                     conn.end();
                 })
                 .on('data', data => {
-                    console.log(`${data}`);
+                    process.stdout.write(`${data}`);
                 })
                 .stderr.on('data', data => {
                     console.error('Error: ' + data);
                 });
         });
+    })
+    .on('error', (err) => {
+        console.error(`Error occurred, maybe check your password is correct? Error details below.`);
+        console.error(err);
     })
     .connect({
         host: config.host,
