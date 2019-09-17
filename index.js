@@ -55,6 +55,7 @@ function onSchedule() {
 const job = new CronJob(config.scheduleCron, () => {
     console.log(`Scheduled job running`);
     onSchedule();
+    console.log(`Scheduled job done`);
 });
 
 console.log(`Starting schedule ${config.scheduleCron}`);
