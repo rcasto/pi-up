@@ -3,6 +3,8 @@
 echo Starting Raspberry Pi maintenance
 
 echo Starting to update Raspberry Pi
+# Added --allow-releaseinfo-change to fix error:
+# https://www.reddit.com/r/debian/comments/ca3se6/for_people_who_gets_this_error_inrelease_changed/
 sudo apt-get --allow-releaseinfo-change update
 sudo apt-get dist-upgrade -y
 sudo apt autoremove -y
