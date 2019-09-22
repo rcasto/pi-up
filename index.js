@@ -11,9 +11,9 @@ const transporter = nodemailer.createTransport({
 
 async function sendMail(emailText, wasSuccessful) {
     const message = {
-        from: `pi-Up <${config.email}>`,
-        to: `pi-Up Owner <${config.email}>`,
-        subject: `pi-up - Scheduled Job Results (${wasSuccessful ? 'Success' : 'Failed'})`,
+        from: `pi-up <${config.email}>`,
+        to: config.email,
+        subject: `pi-up Results - ${wasSuccessful ? 'Success' : 'Failed'}`,
         text: emailText,
     };
     await transporter.sendMail(message);
@@ -51,7 +51,9 @@ async function onSchedule() {
         console.error(emailText);
     }
 
-    await sendMail(emailText, wasJobSuccessful);
+    if (config.email) {
+        await sendMail(emailText, wasJobSuccessful);
+    }
 }
 
 function onInit() {
