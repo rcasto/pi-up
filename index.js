@@ -1,67 +1,68 @@
-const readFile = require('fs').readFile;
 const promisify = require('util').promisify;
-const readFilePromise = promisify(readFile);
-const Client = require('ssh2').Client;
+const readFilePromise = promisify(require('fs').readFile);
+const execPromise = promisify(require('child_process').exec);
 const CronJob = require('cron').CronJob;
+const nodemailer = require('nodemailer');
 const config = require('./config.json');
 
-function onSchedule() {
-    const conn = new Client();
-    conn
-        .on('ready', async () => {
-            console.log('SSH connection established');
-    
-            const customScript = await readFilePromise('./custom-update.sh', {
-                encoding: 'utf-8',
-            });
-            console.log('Custom script to execute');
-            console.log('------------------------');
-            console.log(customScript);
-            console.log('------------------------');
-    
-            console.log('Executing custom script');
-            console.log('-----------------------');
-    
-            conn.exec(customScript, (err, stream) => {
-                if (err) {
-                    throw err;
-                }
-    
-                stream
-                    .on('close', (code, signal) => {
-                        console.log('Stream :: close :: code: ' + code + ', signal: ' + signal);
-                        conn.end();
-                    })
-                    .on('data', data => {
-                        process.stdout.write(`${data}`);
-                    })
-                    .stderr.on('data', data => {
-                        console.error('Error: ' + data);
-                    });
-            });
-        })
-        .on('error', (err) => {
-            console.error(`Error occurred, maybe check your password is correct? Error details below.`);
-            console.error(err);
-        })
-        .connect({
-            host: config.host,
-            port: 22,
-            username: config.username,
-            password: config.password,
-        });
+const transporter = nodemailer.createTransport({
+    sendmail: true,
+});
+
+async function sendMail(emailText, wasSuccessful) {
+    const message = {
+        from: `pi-Up <${config.email}>`,
+        to: `pi-Up Owner <${config.email}>`,
+        subject: `pi-up - Scheduled Job Results (${wasSuccessful ? 'Success' : 'Failed'})`,
+        text: emailText,
+    };
+    await transporter.sendMail(message);
 }
 
-function onScheduleWrapper() {
-    console.log(`Scheduled job running`);
-    onSchedule();
-    console.log(`Scheduled job done`);
+async function onSchedule() {
+    const customScript = await readFilePromise(config.scriptPath, {
+        encoding: 'utf-8',
+    });
+    const { stdout, stderr } = await execPromise(customScript);
+
+    console.log('Custom script being executed');
+    console.log('----------------------------');
+    console.log(customScript);
+
+    console.log();
+    console.log();
+
+    console.log('Custom script output');
+    console.log('--------------------');
+
+    let emailText = 'Custom script had no output';
+    let wasJobSuccessful = true;
+
+    if (stderr) {
+        emailText = `An error occurred\n${stderr}`;
+        wasJobSuccessful = false;
+    } else if (stdout) {
+        emailText = stdout;
+    }
+
+    if (wasJobSuccessful) {
+        console.log(emailText);
+    } else {
+        console.error(emailText);
+    }
+
+    await sendMail(emailText, wasJobSuccessful);
 }
 
-const job = new CronJob(config.scheduleCron, onScheduleWrapper);
+function onInit() {
+    console.log(`Starting schedule: ${config.scheduleCron}`);
 
-console.log(`Starting schedule ${config.scheduleCron}`);
-if (config.runOnInit) {
-    onScheduleWrapper();
+    if (config.runOnInit) {
+        onSchedule();
+    }
+
+    const scheduledJob = new CronJob(config.scheduleCron, onSchedule);
+    scheduledJob.start();
 }
-job.start();
+
+onInit();

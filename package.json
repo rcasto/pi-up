@@ -10,6 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "cron": "^1.7.2",
-    "ssh2": "^0.8.5"
+    "nodemailer": "^6.3.0"
   }
 }

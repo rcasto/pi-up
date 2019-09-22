@@ -1,7 +1,6 @@
 {
-    "host": "<your-raspberry-pi-ip>",
-    "username": "pi",
-    "password": "<your-ssh-access-raspberry-pi-password>",
-    "scheduleCron": "0 0 * * 1",
-    "runOnInit": true
+    "scheduleCron": "30 0 * * *",
+    "runOnInit": true,
+    "scriptPath": "./custom-update.sh",
+    "email": "<your-email-address>"
 }
