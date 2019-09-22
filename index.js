@@ -9,20 +9,28 @@ const transporter = nodemailer.createTransport({
     sendmail: true,
 });
 
-async function sendMail(emailText) {
+async function readCustomScript(scriptPath) {
+    try {
+        const customScript = await readFilePromise(scriptPath, {
+            encoding: 'utf-8',
+        });
+        return customScript;
+    } catch(err) {
+        console.error(`Error reading custom script file at ${scriptPath}: ${err}`);
+    }
+}
+
+async function sendMail(emailAddress, emailText) {
     const message = {
-        from: `pi-up <${config.email}>`,
-        to: config.email,
+        from: `pi-up <${emailAddress}>`,
+        to: emailAddress,
         subject: `pi-up Results`,
         text: emailText,
     };
     await transporter.sendMail(message);
 }
 
-async function onSchedule() {
-    const customScript = await readFilePromise(config.scriptPath, {
-        encoding: 'utf-8',
-    });
+async function onSchedule(customScript, emailAddress) {
     const { stdout, stderr } = await execPromise(customScript);
 
     console.log('Custom script being executed');
@@ -52,21 +60,23 @@ async function onSchedule() {
         emailText = 'Custom script had no output';
     }
 
-    if (config.email) {
-        await sendMail(emailText);
+    if (emailAddress) {
+        await sendMail(emailAddress, emailText);
     }
 
     console.log(emailText);
 }
 
-function onInit() {
-    console.log(`Starting schedule: ${config.scheduleCron}`);
+async function onInit() {
+    const customScript = await readCustomScript(config.scriptPath);
 
     if (config.runOnInit) {
-        onSchedule();
+        await onSchedule(customScript, config.email);
     }
 
-    const scheduledJob = new CronJob(config.scheduleCron, onSchedule);
+    console.log(`Starting schedule: ${config.scheduleCron}`);
+
+    const scheduledJob = new CronJob(config.scheduleCron, () => onSchedule(customScript, config.email));
     scheduledJob.start();
 }
 
