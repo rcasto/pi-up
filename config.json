@@ -1,6 +1,6 @@
 {
-    "scheduleCron": "30 0 * * *",
+    "scheduleCron": "0 18 * * *",
     "runOnInit": true,
     "scriptPath": "./custom-update.sh",
-    "email": "<your-email-address>"
+    "email": ""
 }
