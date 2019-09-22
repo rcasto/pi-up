@@ -9,11 +9,11 @@ const transporter = nodemailer.createTransport({
     sendmail: true,
 });
 
-async function sendMail(emailText, wasSuccessful) {
+async function sendMail(emailText) {
     const message = {
         from: `pi-up <${config.email}>`,
         to: config.email,
-        subject: `pi-up Results - ${wasSuccessful ? 'Success' : 'Failed'}`,
+        subject: `pi-up Results`,
         text: emailText,
     };
     await transporter.sendMail(message);
@@ -35,25 +35,28 @@ async function onSchedule() {
     console.log('Custom script output');
     console.log('--------------------');
 
-    let emailText = 'Custom script had no output';
-    let wasJobSuccessful = true;
+    let emailText;
 
-    if (stderr) {
-        emailText = `An error occurred\n${stderr}`;
-        wasJobSuccessful = false;
-    } else if (stdout) {
+    if (stdout) {
         emailText = stdout;
     }
 
-    if (wasJobSuccessful) {
-        console.log(emailText);
-    } else {
-        console.error(emailText);
+    if (stderr) {
+        if (emailText) {
+            emailText += '\n\n';
+        }
+        emailText += `Errors:\n${stderr}`;
+    }
+
+    if (!emailText) {
+        emailText = 'Custom script had no output';
     }
 
     if (config.email) {
-        await sendMail(emailText, wasJobSuccessful);
+        await sendMail(emailText);
     }
+
+    console.log(emailText);
 }
 
 function onInit() {
