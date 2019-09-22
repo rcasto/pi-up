@@ -20,7 +20,7 @@ To get started you will want to update the `config.json` file in this repo. Belo
 }
 ```
 
-- **scheduleCron** - crontab describing schedule of which to run update script.
+- **scheduleCron** - crontab describing schedule of which to run update script. [6 fields supported, finest granularity being 1 second](https://www.npmjs.com/package/cron#available-cron-patterns).
 - **runOnInit** - Whether or not the update script should be ran on initialization of schedule or not. When false, first run will happen on next scheduled occurrence.
 - **scriptPath** - Path to custom script containing update routine. It's much safer to use the exact path, instead of a relative path to the script.
 - **email** - Optional field for email address, email is sent to this address with results of update routine. Simply leave empty to not send an email.
