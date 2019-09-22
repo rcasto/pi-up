@@ -51,10 +51,8 @@ To get started you will want to update the `config.json` file in this repo. Belo
 ### Running on Raspberry Pi bootup
 Edit `/etc/rc.local`, adding:
 ```
-node ~/pi-up/index.js &
+node /home/pi/pi-up/index.js &
 ```
-
-**Note:** This assumes you cloned the pi-up repository to your home folder on the Raspberry Pi.
 
 ### Resources
 - [SSH Raspberry Pi](https://www.raspberrypi.org/documentation/remote-access/ssh/)
