@@ -15,14 +15,14 @@ To get started you will want to update the `config.json` file in this repo. Belo
 {
     "scheduleCron": "0 18 * * *",
     "runOnInit": true,
-    "scriptPath": "./custom-update.sh",
+    "scriptPath": "/home/pi/pi-up/custom-update.sh",
     "email": "your-email@address.com"
 }
 ```
 
 - **scheduleCron** - crontab describing schedule of which to run update script.
 - **runOnInit** - Whether or not the update script should be ran on initialization of schedule or not. When false, first run will happen on next scheduled occurrence.
-- **scriptPath** - Path to custom script containing update routine.
+- **scriptPath** - Path to custom script containing update routine. It's much safer to use the exact path, instead of a relative path to the script.
 - **email** - Optional field for email address, email is sent to this address with results of update routine. Simply leave empty to not send an email.
 
 ### Starting scheduled update
@@ -53,6 +53,8 @@ Edit `/etc/rc.local`, adding:
 ```
 node /home/pi/pi-up/index.js &
 ```
+
+**Note:** You will want to have changed your `scriptPath` in the configuration to use an exact path.
 
 ### Resources
 - [SSH Raspberry Pi](https://www.raspberrypi.org/documentation/remote-access/ssh/)
