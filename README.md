@@ -13,7 +13,7 @@ The goal of this project is to update a Raspberry Pi using a custom script on a 
 To get started you will want to update the `config.json` file in this repo. Below is a sample configuration:
 ```json
 {
-    "scheduleCron": "0 18 * * *",
+    "scheduleCron": "0 0 18 * * *",
     "runOnInit": true,
     "scriptPath": "/home/pi/pi-up/custom-update.sh",
     "email": "your-email@address.com"
