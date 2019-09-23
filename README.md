@@ -1,5 +1,10 @@
 # pi-up
-The goal of this project is to update a Raspberry Pi using a custom script on a desired schedule and be notified of the results.
+The goal of this project is to execute a custom update script on a Raspberry Pi according to a desired schedule and be notified of the results.
+
+## Background
+Truthfully, this project could be used to execute any custom script on a Raspberry Pi according to a desired schedule.
+
+The primary focus with this project though, is to update a Raspberry Pi. Also, this project currently assumes the Raspberry Pi is running Pi-hole and will attempt to update that as well.
 
 ## Usage
 
