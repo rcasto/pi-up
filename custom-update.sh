@@ -10,6 +10,12 @@ sudo apt-get dist-upgrade -y
 sudo apt autoremove -y
 echo Done updating Raspberry Pi
 
+# https://docs.pi-hole.net/guides/unbound/#setting-up-pi-hole-as-a-recursive-dns-server-solution
+echo Downloading the current root hints file 
+wget -O root.hints https://www.internic.net/domain/named.root
+sudo mv root.hints /var/lib/unbound/
+echo Done downloading current root hints file
+
 echo Starting to update Pi-hole
 pihole -up
 echo Done updating Pi-hole
