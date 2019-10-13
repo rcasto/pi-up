@@ -1,5 +1,10 @@
 # pi-up
-The goal of this project is to update a Raspberry Pi using a custom script on a desired schedule and be notified of the results.
+The goal of this project is to execute a custom update script on a Raspberry Pi according to a desired schedule and be notified of the results.
+
+## Background
+Truthfully, this project could be used to execute any custom script on a Raspberry Pi according to a desired schedule.
+
+The primary focus with this project though, is to update a Raspberry Pi. Also, this project currently assumes the Raspberry Pi is running Pi-hole and will attempt to update that as well.
 
 ## Usage
 
@@ -63,6 +68,9 @@ node /home/pi/pi-up/index.js &
 - [Extracting or Uncompressing tar.xz Files in Linux](https://scottlinux.com/2014/01/07/extracting-or-uncompressing-tar-xz-files-in-linux/)
 - [Helpful crontab scheduling editor](https://crontab.guru/)
 - [Run command on Raspberry Pi bootup](https://www.raspberrypi.org/documentation/linux/usage/rc-local.md)
+<<<<<<< HEAD
 - [Pi-hole as All-Around DNS Solution](https://docs.pi-hole.net/guides/unbound/)
 - [Unbound](https://nlnetlabs.nl/documentation/unbound/)
 - [Big Blocklist Collection](https://firebog.net/)
+=======
+>>>>>>> eeb7b21e0b7d738f9c26f7e34c0ed1306cf7221e
