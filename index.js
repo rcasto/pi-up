@@ -63,6 +63,7 @@ async function onSchedule(customScript, emailAddress) {
 
         console.log(emailText);
     } catch (err) {
+        console.error('An error occurred while executing the custom script');
         console.error(err.stderr);
     }
 }
