@@ -68,7 +68,6 @@ node /home/pi/pi-up/index.js &
 - [Extracting or Uncompressing tar.xz Files in Linux](https://scottlinux.com/2014/01/07/extracting-or-uncompressing-tar-xz-files-in-linux/)
 - [Helpful crontab scheduling editor](https://crontab.guru/)
 - [Run command on Raspberry Pi bootup](https://www.raspberrypi.org/documentation/linux/usage/rc-local.md)
-<<<<<<< HEAD
 - [Pi-hole as All-Around DNS Solution](https://docs.pi-hole.net/guides/unbound/)
 - [Unbound](https://nlnetlabs.nl/documentation/unbound/)
 - [Big Blocklist Collection](https://firebog.net/)
