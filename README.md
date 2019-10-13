@@ -72,5 +72,3 @@ node /home/pi/pi-up/index.js &
 - [Pi-hole as All-Around DNS Solution](https://docs.pi-hole.net/guides/unbound/)
 - [Unbound](https://nlnetlabs.nl/documentation/unbound/)
 - [Big Blocklist Collection](https://firebog.net/)
-=======
->>>>>>> eeb7b21e0b7d738f9c26f7e34c0ed1306cf7221e
