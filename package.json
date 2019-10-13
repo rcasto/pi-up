@@ -4,7 +4,8 @@
   "description": "Update a Raspberry Pi remotely using a custom script on a desired schedule",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test-script": "npm start -- testing"
   },
   "author": "Richie Casto (https://github.com/rcasto)",
   "license": "MIT",

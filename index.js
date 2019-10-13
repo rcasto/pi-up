@@ -5,6 +5,7 @@ const CronJob = require('cron').CronJob;
 const nodemailer = require('nodemailer');
 const config = require('./config.json');
 
+const testScriptExecutionArgument = 'testing';
 const transporter = nodemailer.createTransport({
     sendmail: true,
 });
@@ -69,6 +70,13 @@ async function onSchedule(customScript, emailAddress) {
 
 async function onInit() {
     const customScript = await readCustomScript(config.scriptPath);
+    const isTestScriptExecution = process.argv.slice(2)
+        .some(arg => arg === testScriptExecutionArgument);
+
+    if (isTestScriptExecution) {
+        await onSchedule(customScript, config.email);
+        return;
+    }
 
     if (config.runOnInit) {
         await onSchedule(customScript, config.email);
