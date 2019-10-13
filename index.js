@@ -32,40 +32,37 @@ async function sendMail(emailAddress, emailText) {
 }
 
 async function onSchedule(customScript, emailAddress) {
-    const { stdout, stderr } = await execPromise(customScript);
+    try {
+        const { stdout, stderr } = await execPromise(customScript);
 
-    console.log('Custom script being executed');
-    console.log('----------------------------');
-    console.log(customScript);
+        console.log('Custom script output');
+        console.log('--------------------');
 
-    console.log();
-    console.log();
+        let emailText;
 
-    console.log('Custom script output');
-    console.log('--------------------');
-
-    let emailText;
-
-    if (stdout) {
-        emailText = stdout;
-    }
-
-    if (stderr) {
-        if (emailText) {
-            emailText += '\n\n';
+        if (stdout) {
+            emailText = stdout;
         }
-        emailText += `Errors:\n${stderr}`;
-    }
 
-    if (!emailText) {
-        emailText = 'Custom script had no output';
-    }
+        if (stderr) {
+            if (emailText) {
+                emailText += '\n\n';
+            }
+            emailText += `Errors:\n${stderr}`;
+        }
 
-    if (emailAddress) {
-        await sendMail(emailAddress, emailText);
-    }
+        if (!emailText) {
+            emailText = 'Custom script had no output';
+        }
 
-    console.log(emailText);
+        if (emailAddress) {
+            await sendMail(emailAddress, emailText);
+        }
+
+        console.log(emailText);
+    } catch (err) {
+        console.error(err.stderr);
+    }
 }
 
 async function onInit() {
