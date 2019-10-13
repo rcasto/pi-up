@@ -33,6 +33,8 @@ async function sendMail(emailAddress, emailText) {
 
 async function onSchedule(customScript, emailAddress) {
     try {
+        console.log('Custom script is beginning execution');
+
         const { stdout, stderr } = await execPromise(customScript);
 
         console.log('Custom script output');
