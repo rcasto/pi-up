@@ -20,22 +20,16 @@ sudo apt-get dist-upgrade -y
 sudo apt autoremove -y
 echo Done updating Raspberry Pi
 
-echo Starting to update Pi-hole
 if hash pihole 2>/dev/null; then
+    echo Starting to update Pi-hole
     pihole -up
-else
-    echo pihole not installed, skipping update
-fi
-echo Done updating Pi-hole
+    echo Done updating Pi-hole
 
-# https://docs.pi-hole.net/guides/unbound/#setting-up-pi-hole-as-a-recursive-dns-server-solution
-echo Downloading the current root hints file
-if hash wget 2>/dev/null; then
-    wget -O root.hints https://www.internic.net/domain/named.root
-    sudo mv root.hints /var/lib/unbound/
+    echo Updating Pi-hole gravity
+    pihole -g
+    echo Done updating Pi-hole gravity
 else
-    echo wget not installed, skipping download of current root hints file
+    echo pihole not installed, skipping Pi-hole routine
 fi
-echo Done downloading current root hints file
 
 echo Done Raspberry Pi maintenance
