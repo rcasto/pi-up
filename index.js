@@ -7,7 +7,13 @@ const config = require('./config.json');
 
 const testScriptExecutionArgument = 'testing';
 const transporter = nodemailer.createTransport({
-    sendmail: true,
+    host: config.smtpInfo.host,
+    port: config.smtpInfo.port,
+    secure: true,
+    auth: {
+        user: config.smtpInfo.username,
+        pass: config.smtpInfo.password
+    }
 });
 
 async function readCustomScript(scriptPath) {
@@ -16,22 +22,36 @@ async function readCustomScript(scriptPath) {
             encoding: 'utf-8',
         });
         return customScript;
-    } catch(err) {
+    } catch (err) {
         console.error(`Error reading custom script file at ${scriptPath}: ${err}`);
     }
 }
 
 async function sendMail(emailAddress, emailText) {
-    const message = {
-        from: `pi-up <${emailAddress}>`,
-        to: emailAddress,
-        subject: `pi-up Results`,
-        text: emailText,
-    };
-    await transporter.sendMail(message);
+    if (!config.email) {
+        console.log(`No email address provided, not sending email.`);
+        return;
+    }
+
+    try {
+        const message = {
+            from: `pi-up <${emailAddress}>`,
+            to: emailAddress,
+            subject: `pi-up Results`,
+            text: emailText,
+        };
+
+        await transporter.sendMail(message);
+
+        console.log(`Successfully sent email to ${emailAddress}`);
+    } catch (err) {
+        console.error(`Failed to send email to ${emailAddress}\n${err}`);
+    }
 }
 
 async function onSchedule(customScript, emailAddress) {
+    let emailText;
+
     try {
         console.log('Custom script is beginning execution');
 
@@ -39,8 +59,6 @@ async function onSchedule(customScript, emailAddress) {
 
         console.log('Custom script output');
         console.log('--------------------');
-
-        let emailText;
 
         if (stdout) {
             emailText = stdout;
@@ -50,21 +68,19 @@ async function onSchedule(customScript, emailAddress) {
             if (emailText) {
                 emailText += '\n\n';
             }
-            emailText += `Errors:\n${stderr}`;
+            emailText += `Custom script error output:\n${stderr}`;
         }
 
         if (!emailText) {
             emailText = 'Custom script had no output';
         }
 
-        if (emailAddress) {
-            await sendMail(emailAddress, emailText);
-        }
-
         console.log(emailText);
     } catch (err) {
-        console.error('An error occurred while executing the custom script');
-        console.error(err.stderr);
+        emailText = `An error occurred while executing the custom script\n${err}`;
+        console.error(emailText);
+    } finally {
+        await sendMail(emailAddress, emailText);
     }
 }
 
