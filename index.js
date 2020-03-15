@@ -9,7 +9,7 @@ const testScriptExecutionArgument = 'testing';
 const transporter = nodemailer.createTransport({
     host: config.smtpInfo.host,
     port: config.smtpInfo.port,
-    secure: true,
+    secure: false,
     auth: {
         user: config.smtpInfo.username,
         pass: config.smtpInfo.password
