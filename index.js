@@ -91,13 +91,14 @@ async function onInit() {
     const isTestScriptExecution = process.argv.slice(2)
         .some(arg => arg === testScriptExecutionArgument);
 
-    if (isTestScriptExecution) {
+    if (isTestScriptExecution || config.runOnInit) {
         await onSchedule(customScript, config.email, config.name);
-        return;
-    }
 
-    if (config.runOnInit) {
-        await onSchedule(customScript, config.email, config.name);
+        if (isTestScriptExecution) {
+            // Only testing the script out once, no need to start
+            // scheduling the cron job
+            return;
+        }
     }
 
     console.log(`Starting schedule: ${config.scheduleCron}`);
