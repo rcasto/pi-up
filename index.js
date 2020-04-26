@@ -27,7 +27,7 @@ async function readCustomScript(scriptPath) {
     }
 }
 
-async function sendMail(emailAddress, emailText, name = '') {
+async function sendMail(emailAddress, emailText, name) {
     if (!config.email) {
         console.log(`No email address provided, not sending email.`);
         return;
@@ -51,7 +51,7 @@ async function sendMail(emailAddress, emailText, name = '') {
     }
 }
 
-async function onSchedule(customScript, emailAddress) {
+async function onSchedule(customScript, emailAddress, name = '') {
     let emailText;
 
     try {
@@ -82,7 +82,7 @@ async function onSchedule(customScript, emailAddress) {
         emailText = `An error occurred while executing the custom script\n${err}`;
         console.error(emailText);
     } finally {
-        await sendMail(emailAddress, emailText);
+        await sendMail(emailAddress, emailText, name);
     }
 }
 
