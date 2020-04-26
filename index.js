@@ -103,7 +103,8 @@ async function onInit() {
 
     console.log(`Starting schedule: ${config.scheduleCron}`);
 
-    const scheduledJob = new CronJob(config.scheduleCron, () => onSchedule(customScript, config.email, config.name));
+    const scheduledJob = new CronJob(config.scheduleCron,
+        () => onSchedule(customScript, config.email, config.name));
     scheduledJob.start();
 }
 
