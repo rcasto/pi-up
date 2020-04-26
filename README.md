@@ -10,7 +10,8 @@ The primary focus with this project though, is to update a Raspberry Pi. Also, t
 
 ### Prerequisites
 - Must have SSH access to Raspberry Pi
-- [Git](https://git-scm.com/downloads) must be installed on Raspberry Pi (should be installed by default)
+- Must know the IP address of your Raspberry Pi
+- [Git](https://git-scm.com/downloads) must be installed: `apt-get install git` 
 - [Node.js](https://nodejs.org/en/download/) must be installed on Raspberry Pi
 - Must have sendmail package installed: `apt-get install sendmail`
 
@@ -63,11 +64,8 @@ node /home/pi/pi-up/index.js &
 
 ### Resources
 - [SSH Raspberry Pi](https://www.raspberrypi.org/documentation/remote-access/ssh/)
-- [Getting Git on Raspberry Pi](https://projects.raspberrypi.org/en/projects/getting-started-with-git/4)
-- [Install Node.js and Npm on Raspberry Pi](https://www.instructables.com/id/Install-Nodejs-and-Npm-on-Raspberry-Pi/)
-- [Extracting or Uncompressing tar.xz Files in Linux](https://scottlinux.com/2014/01/07/extracting-or-uncompressing-tar-xz-files-in-linux/)
+- [Install Node.js and Npm on Raspberry Pi](https://github.com/nodesource/distributions/blob/master/README.md#debinstall)
 - [Helpful crontab scheduling editor](https://crontab.guru/)
 - [Run command on Raspberry Pi bootup](https://www.raspberrypi.org/documentation/linux/usage/rc-local.md)
-- [Pi-hole as All-Around DNS Solution](https://docs.pi-hole.net/guides/unbound/)
-- [Unbound](https://nlnetlabs.nl/documentation/unbound/)
+- [Pi-hole](https://pi-hole.net/)
 - [Big Blocklist Collection](https://firebog.net/)
