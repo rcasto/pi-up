@@ -17,7 +17,7 @@ fi
 # https://www.reddit.com/r/debian/comments/ca3se6/for_people_who_gets_this_error_inrelease_changed/
 sudo apt-get --allow-releaseinfo-change update
 sudo apt-get dist-upgrade -y
-sudo apt autoremove -y
+sudo apt-get autoremove -y
 echo Done updating Raspberry Pi
 
 if hash pihole 2>/dev/null; then
