@@ -30,6 +30,7 @@ To get started you will want to update the `config.json` file in this repo. Belo
 - **runOnInit** - Whether or not the update script should be ran on initialization of schedule or not. When false, first run will happen on next scheduled occurrence.
 - **scriptPath** - Path to custom script containing update routine. It's much safer to use the exact path, instead of a relative path to the script.
 - **email** - Optional field for email address, email is sent to this address with results of update routine. Simply leave empty to not send an email.
+- **name** - Optional field to identify your Raspberry Pi, this will be included in the subject of the email sent to you.
 
 ### Starting scheduled update
 1. SSH into Raspberry Pi

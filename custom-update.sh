@@ -29,7 +29,7 @@ if hash pihole 2>/dev/null; then
     pihole -g
     echo Done updating Pi-hole gravity
 else
-    echo pihole not installed, skipping Pi-hole routine
+    echo pihole not installed, skipping Pi-hole update routine
 fi
 
 echo Done Raspberry Pi maintenance

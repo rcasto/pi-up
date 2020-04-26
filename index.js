@@ -27,7 +27,7 @@ async function readCustomScript(scriptPath) {
     }
 }
 
-async function sendMail(emailAddress, emailText) {
+async function sendMail(emailAddress, emailText, name = '') {
     if (!config.email) {
         console.log(`No email address provided, not sending email.`);
         return;
@@ -37,7 +37,9 @@ async function sendMail(emailAddress, emailText) {
         const message = {
             from: `pi-up <${emailAddress}>`,
             to: emailAddress,
-            subject: `pi-up Results`,
+            subject: name ?
+                `${name} - pi-up results` :
+                `pi-up results`,
             text: emailText,
         };
 
@@ -90,17 +92,17 @@ async function onInit() {
         .some(arg => arg === testScriptExecutionArgument);
 
     if (isTestScriptExecution) {
-        await onSchedule(customScript, config.email);
+        await onSchedule(customScript, config.email, config.name);
         return;
     }
 
     if (config.runOnInit) {
-        await onSchedule(customScript, config.email);
+        await onSchedule(customScript, config.email, config.name);
     }
 
     console.log(`Starting schedule: ${config.scheduleCron}`);
 
-    const scheduledJob = new CronJob(config.scheduleCron, () => onSchedule(customScript, config.email));
+    const scheduledJob = new CronJob(config.scheduleCron, () => onSchedule(customScript, config.email, config.name));
     scheduledJob.start();
 }
 

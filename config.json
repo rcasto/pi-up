@@ -3,6 +3,7 @@
     "runOnInit": true,
     "scriptPath": "./custom-update.sh",
     "email": "",
+    "name": "",
     "smtpInfo": {
         "host": "",
         "port": 587,
