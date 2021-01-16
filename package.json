@@ -1,6 +1,6 @@
 {
   "name": "pi-up",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Update a Raspberry Pi remotely using a custom script on a desired schedule",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,8 @@
   "dependencies": {
     "cron": "1.8.2",
     "nodemailer": "6.4.17"
+  },
+  "bin": {
+    "pi-up": "cli.js"
   }
 }
