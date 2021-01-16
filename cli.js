@@ -37,7 +37,7 @@ async function readFileToString(filePath) {
 }
 
 if (commandArgs.length <= 0) {
-    console.log(`Usage: npx ${commandName} <package1> <package2> ... <packageN> or ${commandName} <package1> <package2> ... <packageN>`);
+    console.log(`Usage: npx ${commandName} <configFilePath>`);
 } else {
     const configFilePath = commandArgs[0];
     readFileToString(configFilePath)
